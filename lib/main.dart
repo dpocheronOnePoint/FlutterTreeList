@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tree_list/ui/screens/tree_list_screen.dart';
+import 'package:provider/provider.dart';
+import 'Repositories/data_repository.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => DataRepository(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

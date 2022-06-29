@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tree_list/Repositories/data_repository.dart';
 import 'package:flutter_tree_list/models/tree.dart';
 import 'package:flutter_tree_list/services/api_service.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_tree_list/Repositories/data_repository.dart';
+import 'package:provider/provider.dart';
 
 class TreeListScreen extends StatefulWidget {
   const TreeListScreen({Key? key}) : super(key: key);
@@ -11,24 +14,20 @@ class TreeListScreen extends StatefulWidget {
 }
 
 class _TreeListScreenState extends State<TreeListScreen> {
-  List<Tree>? trees;
-
   @override
   void initState() {
     super.initState();
     getTrees();
   }
 
-  void getTrees() {
-    APIService().getTreeList(0).then((treeList) {
-      setState(() {
-        trees = treeList;
-      });
-    });
+  void getTrees() async {
+    final dataProvider = Provider.of<DataRepository>(context, listen: false);
+    await dataProvider.getTrees();
   }
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataRepository>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -40,10 +39,10 @@ class _TreeListScreenState extends State<TreeListScreen> {
           Container(
             height: 500,
             color: Colors.red,
-            child: trees == null
+            child: dataProvider.treeList.isEmpty
                 ? const Center()
                 : Text(
-                    trees![0].name,
+                    dataProvider.treeList[0].name,
                     style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 18,
