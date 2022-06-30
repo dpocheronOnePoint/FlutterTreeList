@@ -15,17 +15,6 @@ class TreeListScreen extends StatefulWidget {
 
 class _TreeListScreenState extends State<TreeListScreen> {
   @override
-  void initState() {
-    super.initState();
-    getTrees();
-  }
-
-  void getTrees() async {
-    final dataProvider = Provider.of<DataRepository>(context, listen: false);
-    await dataProvider.getTrees();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataRepository>(context);
     return Scaffold(

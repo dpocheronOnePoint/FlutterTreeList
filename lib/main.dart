@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tree_list/ui/screens/tree_list_screen.dart';
+import 'package:flutter_tree_list/ui/screens/loading_screen.dart';
 import 'package:provider/provider.dart';
 import 'Repositories/data_repository.dart';
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const TreeListScreen(),
+      home: const LoadingScreen(),
     );
   }
 }
