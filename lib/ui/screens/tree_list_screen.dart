@@ -25,18 +25,31 @@ class _TreeListScreenState extends State<TreeListScreen> {
       ),
       body: ListView(
         children: [
-          Container(
-            height: 500,
-            color: Colors.red,
-            child: dataProvider.treeList.isEmpty
-                ? const Center()
-                : Text(
-                    dataProvider.treeList[0].name,
-                    style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
+          SizedBox(
+            height: 200,
+            child: NotificationListener<ScrollNotification>(
+              // Method to check if the user has scroll 2/3 of the list
+              // To load the next page
+              onNotification: (ScrollNotification notification) {
+                final currentPosition = notification.metrics.pixels;
+                final maxPosition = notification.metrics.maxScrollExtent;
+                if (currentPosition >= maxPosition * 2 / 3) {
+                  print('test');
+                }
+                return true;
+              },
+              child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                        height: 50,
+                        margin: const EdgeInsets.only(right: 8),
+                        color: Colors.grey,
+                        child: Center(
+                          child: Text(dataProvider.treeList[index].name),
+                        ));
+                  }),
+            ),
           ),
         ],
       ),
