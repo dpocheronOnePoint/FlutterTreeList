@@ -13,7 +13,7 @@ class APIService {
     // Global params for all request
     Map<String, dynamic> queryParameters = {
       'dataset': 'les-arbres',
-      'start': startIndex.toString(),
+      'start': startIndex,
       'rows': '20'
     };
 

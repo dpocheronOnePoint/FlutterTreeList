@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tree_list/Repositories/data_repository.dart';
-import 'package:flutter_tree_list/models/tree.dart';
-import 'package:flutter_tree_list/services/api_service.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_tree_list/Repositories/data_repository.dart';
 import 'package:provider/provider.dart';
 
 class TreeListScreen extends StatefulWidget {
@@ -26,7 +22,7 @@ class _TreeListScreenState extends State<TreeListScreen> {
       body: ListView(
         children: [
           SizedBox(
-            height: 200,
+            height: MediaQuery.of(context).size.height,
             child: NotificationListener<ScrollNotification>(
               // Method to check if the user has scroll 2/3 of the list
               // To load the next page
@@ -34,15 +30,18 @@ class _TreeListScreenState extends State<TreeListScreen> {
                 final currentPosition = notification.metrics.pixels;
                 final maxPosition = notification.metrics.maxScrollExtent;
                 if (currentPosition >= maxPosition * 2 / 3) {
-                  print('test');
+                  if (!dataProvider.wsAlreadyInProgress) {
+                    dataProvider.wsAlreadyInProgress = true;
+                    dataProvider.getTrees();
+                  }
                 }
                 return true;
               },
               child: ListView.builder(
-                  itemCount: 10,
+                  itemCount: dataProvider.treeList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                        height: 50,
+                        height: 150,
                         margin: const EdgeInsets.only(right: 8),
                         color: Colors.grey,
                         child: Center(
