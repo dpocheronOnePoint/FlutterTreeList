@@ -64,7 +64,7 @@ class _TreeListScreenState extends State<TreeListScreen> {
                         margin: const EdgeInsets.only(right: 8),
                         color: Colors.grey,
                         child: Center(
-                          child: Text(dataProvider.treeList[index].name),
+                          child: Text(dataProvider.treeList[index].name ?? ""),
                         ));
                   }),
             ),

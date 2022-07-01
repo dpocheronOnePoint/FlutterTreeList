@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tree_list/ui/screens/loading_screen.dart';
+// import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+// import 'package:sqflite/sqflite.dart';
 import 'Repositories/data_repository.dart';
 
-void main() {
+Future<void> main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+
+  // final Future<Database> database = openDatabase(
+  //   // Set the path to the database. Note: Using the `join` function from the
+  //   // `path` package is best practice to ensure the path is correctly
+  //   // constructed for each platform.
+  //   join(await getDatabasesPath(), 'tree_database.db'),
+
+  //   onCreate: (db, version) {
+  //     // Run the CREATE TABLE statement on the database.
+  //     return db.execute(
+  //       'CREATE TABLE tree(id INTEGER PRIMARY KEY, name TEXT)',
+  //     );
+  //   },
+  //   // Set the version. This executes the onCreate function and provides a
+  //   // path to perform database upgrades and downgrades.
+  //   version: 1,
+  // );
+
   runApp(ChangeNotifierProvider(
       create: (context) => DataRepository(), child: const MyApp()));
 }
