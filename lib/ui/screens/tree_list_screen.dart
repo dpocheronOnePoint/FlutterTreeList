@@ -13,6 +13,10 @@ class _TreeListScreenState extends State<TreeListScreen> {
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataRepository>(context);
+
+    // This boolean is use to hack the fatsly WS refresh
+    bool needCall = true;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -28,12 +32,27 @@ class _TreeListScreenState extends State<TreeListScreen> {
               // To load the next page
               onNotification: (ScrollNotification notification) {
                 final currentPosition = notification.metrics.pixels;
-                final maxPosition = notification.metrics.maxScrollExtent;
-                if (currentPosition >= maxPosition * 2 / 3) {
-                  if (!dataProvider.wsAlreadyInProgress) {
-                    dataProvider.wsAlreadyInProgress = true;
-                    dataProvider.getTrees();
+                final bottomPosition = notification.metrics.extentAfter;
+                // print(maxPosition);
+                if (bottomPosition < 500) {
+                  if (dataProvider.treeList.length > dataProvider.startIndex) {
+                    if (needCall) {
+                      needCall = false;
+                      dataProvider.startIndex += 20;
+                      dataProvider.getTrees();
+                    } else {
+                      needCall = true;
+                    }
                   }
+
+                  // if (!dataProvider.wsAlreadyInProgress && needToCall) {
+                  //   print("WS Call !!");
+                  //   dataProvider.wsAlreadyInProgress = true;
+                  //   dataProvider.getTrees();
+                  //   needToCall = false;
+                  // } else {
+                  //   needToCall = true;
+                  // }
                 }
                 return true;
               },

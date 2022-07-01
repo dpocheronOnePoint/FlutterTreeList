@@ -7,7 +7,7 @@ class DataRepository with ChangeNotifier {
   final APIService apiService = APIService();
   final List<Tree> _treeList = [];
   int startIndex = 0;
-  bool wsAlreadyInProgress = false;
+  // bool wsAlreadyInProgress = false;
 
   // Getters
   List<Tree> get treeList => _treeList;
@@ -16,13 +16,11 @@ class DataRepository with ChangeNotifier {
     try {
       List<Tree> trees = await apiService.getTreeList(startIndex);
       _treeList.addAll(trees);
-      startIndex++;
-      print("WS Call !! + ${_treeList.length}");
       notifyListeners();
-      wsAlreadyInProgress = false;
+      // wsAlreadyInProgress = false;
     } on Response catch (response) {
       print("Error: ${response.statusCode}");
-      wsAlreadyInProgress = false;
+      // wsAlreadyInProgress = false;
       rethrow;
     }
   }
