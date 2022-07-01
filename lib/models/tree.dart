@@ -13,7 +13,7 @@ class Tree {
     String? name,
   }) {
     return Tree(
-      id: id ?? this.id,
+      id: id,
       name: name ?? this.name,
     );
   }
