@@ -29,7 +29,7 @@ class Tree {
 
   // Convert a Tree into a Map. The keys must correspond to the names of the
   // columns in the database.
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
