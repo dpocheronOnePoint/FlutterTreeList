@@ -6,9 +6,9 @@ import 'package:sqflite/sqflite.dart';
 import 'Repositories/data_repository.dart';
 
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
-  final Future<Database> database = openDatabase(
+  final Database database = await openDatabase(
     // Set the path to the database. Note: Using the `join` function from the
     // `path` package is best practice to ensure the path is correctly
     // constructed for each platform.
@@ -26,13 +26,13 @@ Future<void> main() async {
   );
 
   runApp(ChangeNotifierProvider(
-      create: (context) => DataRepository(), child: MyApp(database: database)));
+      create: (context) => DataRepository(database: database), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  final Future<Database> database;
+  // final Future<Database> database;
 
-  const MyApp({Key? key, required this.database}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
