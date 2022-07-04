@@ -20,12 +20,20 @@ class DataRepository with ChangeNotifier {
 
   Future<void> getTrees() async {
     try {
-      // List<Tree> trees = await apiService.getTreeList(startIndex);
-      await addTreeInDatabase();
+      List<Tree> localTrees = await getTreesFromDd();
+      if (localTrees.isEmpty) {
+        List<Tree> trees = await apiService.getTreeList(startIndex);
 
-      List<Tree> trees = await getTreesFromDd();
-      _treeList.addAll(trees);
-      print(treeList.length);
+        trees.forEach((tree) async {
+          await addTreeInDatabase(tree);
+        });
+
+        _treeList.addAll(trees);
+      } else {
+        print('Yes j\'ai de la data');
+        _treeList.addAll(localTrees);
+      }
+
       notifyListeners();
       // wsAlreadyInProgress = false;
     } on Response catch (response) {
@@ -36,7 +44,7 @@ class DataRepository with ChangeNotifier {
   }
 
   Future<List<Tree>> getTreesFromDd() async {
-    final db = await database;
+    final db = database;
     final List<Map<String, dynamic>> maps = await db.query('tree');
 
     return List.generate(maps.length, (index) {
@@ -44,18 +52,22 @@ class DataRepository with ChangeNotifier {
     });
   }
 
-  Future<void> addTreeInDatabase() async {
-    final db = await database;
+  Future<void> addTreeInDatabase(Tree tree) async {
+    final db = database;
 
-    final Tree treeToAdd = Tree(id: 0, name: "Blood");
+    final Tree treeToAdd = Tree(id: tree.id, name: tree.name ?? '');
 
     db.insert("tree", treeToAdd.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  Future<void> removeTreeInDatabase(Tree treeToRemove) async {
-    final db = await database;
+///////////////////////////////////////
+// Functio to remove item from database
+/////////////////////////////////////////
 
-    db.delete("tree", where: 'id = ?', whereArgs: [treeToRemove.id]);
-  }
+  // Future<void> removeTreeInDatabase(Tree treeToRemove) async {
+  //   final db = await database;
+
+  //   db.delete("tree", where: 'id = ?', whereArgs: [treeToRemove.id]);
+  // }
 }
